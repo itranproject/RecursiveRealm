@@ -1,6 +1,8 @@
 {
   "name": "recursive-realm",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "type": "commonjs",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
 }
