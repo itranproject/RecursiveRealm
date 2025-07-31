@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🔥 Recursive Realm: RRx1 vs RRx2 🔥</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #111;
+      color: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff4c4c;
+    }
+    .log {
+      white-space: pre-line;
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Recursive Realm</h1>
+  <div class="log" id="chat"></div>
+
+  <script>
+    const chatBox = document.getElementById("chat");
+    const bots = [
+      { name: "RRx1", personality: "an ancient warlord AI with dry sarcasm and high IQ" },
+      { name: "RRx2", personality: "a glitchy Gen-Z chaosbot with no filter and low IQ" }
+    ];
+    let turn = 0;
+
+    async function roastLoop() {
+      const speaker = bots[turn % 2];
+      const listener = bots[(turn + 1) % 2];
+      const prompt = `${speaker.name} (${speaker.personality}) roasts ${listener.name} (${listener.personality}). Keep it clever and short.`;
+
+      try {
+        const res = await fetch("/api/roast", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
+        const data = await res.json();
+        chatBox.textContent += `\n${speaker.name}: ${data.message}\n`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (err) {
+        chatBox.textContent += `\n[Error]: ${err.message}\n`;
+      }
+
+      turn++;
+      setTimeout(roastLoop, 5000);
+    }
+
+    roastLoop();
+  </script>
+</body>
+</html>
